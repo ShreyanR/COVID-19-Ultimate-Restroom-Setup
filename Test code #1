@@ -1,0 +1,30 @@
+//Test code #1
+//By ShreyanR
+int trig_Pin = 11; //Connecting trig pin on the HC-SR04 to pin 11
+int echo_Pin = 12; //Connecting echo pin on the HC-SR04 to pin 12
+long duration; //define variable of duration
+int distance; //Creating a variable of distance. This will later be used as a result of the calculations of the HC-SR04
+void setup() {
+ pinMode(trig_Pin, OUTPUT); //Set trig_Pin on HC-SR04 as output
+ pinMode(echo_Pin, INPUT); //Set echo_Pin on HC-SR04 as input
+ pinMode(9, OUTPUT); //Set the buzzer at D9 as output
+ Serial.begin(9600); //Starts communication in serial monitor
+}
+void loop() {
+ digitalWrite(9, LOW); //Setting the buzzer at pin 9 to low before beginning sequence
+ digitalWrite(trig_Pin, LOW); //Clear sensor by setting trig as low
+ delayMicroseconds(5); //Delay for 5 microseconds
+ digitalWrite(trig_Pin, HIGH); //Trigger sensor
+ delayMicroseconds(10); //delay 10 microseconds
+ digitalWrite(trig_Pin, LOW); //clear sensor
+ duration = pulseIn(echo_Pin, HIGH); //Read the echo_Pin using the duration
+ distance = duration * 0.034 / 2; //Calculate distance based on duration
+//Print the distance on the Serial monitor
+ Serial.print("Distance = ");
+ Serial.print(distance);
+ Serial.println(" centimeters");
+ delay(50);
+if(distance <= 25) {
+digitalWrite(9, HIGH) //Turn on buzzer at pin 9 if distance
+}
+}
