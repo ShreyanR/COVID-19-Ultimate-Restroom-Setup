@@ -1,0 +1,54 @@
+//Test code #2
+//By ShreyanR
+
+int trig_Pin = 11; //Connecting trig pin on the HC-SR04 to pin 11
+int echo_Pin = 12; //Connecting echo pin on the HC-SR04 to pin 12
+
+long duration; //define variable of duration
+int distance; //Creating a variable of distance. This will later be used as a result of the calculations of the HC-SR04
+
+void setup() {
+
+ pinMode(trig_Pin, OUTPUT); //Set trig_Pin on HC-SR04 as output
+ pinMode(echo_Pin, INPUT); //Set echo_Pin on HC-SR04 as input
+ 
+ pinMode(9, OUTPUT); //Set the buzzer at D9 as output
+ 
+ pinMode(2, OUTPUT); //Set yellow LED at D2 as output
+ pinMode(3, OUTPUT); //Set the Blue LED at D3 as output
+ 
+ Serial.begin(9600); //Starts communication in serial monitor
+ 
+}
+
+void loop() {
+
+ digitalWrite(9, LOW); //Setting the buzzer at pin 9 to low before beginning sequence
+ digitalWrite(2, LOW); //Turn off yellow LED at pin 2
+ digitalWrite(3, LOW); //Turn off blue Led at pin 3 
+ 
+ digitalWrite(trig_Pin, LOW); //Clear sensor by setting trig as low
+ delayMicroseconds(5); //Delay for 5 microseconds
+ digitalWrite(trig_Pin, HIGH); //Trigger sensor
+ delayMicroseconds(10); //delay 10 microseconds
+ digitalWrite(trig_Pin, LOW); //clear sensor
+ 
+ duration = pulseIn(echo_Pin, HIGH); //Read the echo_Pin using the duration
+ distance = duration * 0.034 / 2; //Calculate distance based on duration
+ 
+//Print the distance on the Serial monitor
+ Serial.print("Distance = ");
+ Serial.print(distance);
+ Serial.println(" centimeters");
+ 
+ delay(50);
+ 
+ if(distance <= 25) {
+ 
+  digitalWrite(9, HIGH); //Turn on buzzer at pin 9 if distance < 25 cm
+  digitalWrite(2, HIGH); //Turn on yellow LED at pin 2 if distance < 25 cm
+  digitalWrite(3, HIGH); //Turn on blue Led at pin 3 if distance < 25 cm
+  
+}
+
+}
