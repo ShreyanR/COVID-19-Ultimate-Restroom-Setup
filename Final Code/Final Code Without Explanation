@@ -61,14 +61,14 @@ void loop() {
 
   delay(500);
 
-  if(distance <= 15) {
+  if(distance <= 10) {
     
     digitalWrite(buzzer, HIGH);  
     delay(3000);
     digitalWrite(buzzer, LOW);
 
     waterOn.write(90);
-    delay(500);
+    delay(2500);
     waterOn.write(0);
 
     digitalWrite(water, HIGH);
@@ -91,7 +91,7 @@ void loop() {
     digitalWrite(buzzer, LOW);
 
     waterOff.write(90);
-    delay(500);
+    delay(2500);
     waterOff.write(0);
     
     delay(2500);
@@ -116,7 +116,7 @@ void loop() {
     digitalWrite(buzzer, LOW);
 
     waterOn.write(90);
-    delay(500);
+    delay(2500);
     waterOn.write(0);
     
     digitalWrite(water, HIGH);
@@ -140,7 +140,7 @@ void loop() {
 
 
     waterOff.write(90);
-    delay(500);
+    delay(2500);
     waterOff.write(0);
 
     delay(5000);
