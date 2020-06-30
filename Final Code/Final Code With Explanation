@@ -152,7 +152,6 @@ void loop() {
     digitalWrite(water, LOW);
     digitalWrite(buzzer, LOW);
 
-
     waterOff.write(180); //Swivel the water off servo
     delay(700); //Wait 7/10 of a second
     waterOff.write(0); //Swivel water off Servo back into original position
