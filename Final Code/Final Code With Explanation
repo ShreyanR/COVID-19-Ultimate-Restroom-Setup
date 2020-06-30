@@ -12,12 +12,16 @@ Servo waterOn; //Recognize the waterOn Servo
 Servo waterOff; //Recognize the waterOff Servo
 
 long duration; //Set the duration as long/extended that can change
+
 int distance; //create a distance
 
 void setup() { //setup code that only runs once
 
   waterOn.attach(5); //define the water on pin on D5
   waterOff.attach(6); //define the water off pin on D6
+  
+  waterOn.write(0); //Set the angle of the SG-90 Micro Servos to 0
+  waterOff.write(0); //Set the angle of the other SG-90 Micro Servo to 0
 
   pinMode(trig_Pin, OUTPUT); //Set the trigger pin to Output
   pinMode(echo_Pin, INPUT); //Set the echo pin to Input
@@ -53,7 +57,7 @@ void loop() {
   digitalWrite(trig_Pin, LOW); //Clear trigger pin
 
   duration = pulseIn(echo_Pin, HIGH); //The duration can now be calculated by the readings
-  distance = duration * 0.034 / 2; //The distance can now be calculated from the duration
+  distance = duration * 0.017; //The distance can now be calculated from the duration
 
   Serial.print("Distance = "); //The following code is just printing in the Serial monitor the distance
   Serial.print(distance);
@@ -61,67 +65,23 @@ void loop() {
 
   delay(500); //Wait for a half second
 
-  if(distance <= 15) { //If their is distance less than 15 cm away (begin sequence)
+  if(distance <= 10) { //If their is distance less than 10 cm away (begin sequence)
     
-    digitalWrite(buzzer, HIGH); //Indicate the sensor has been triggered and to wash hands by turning buzzer on 
-    delay(3000); //wait for 3 seconds
-    digitalWrite(buzzer, LOW); //turn buzzer off
+    //To notify user, that the sensor was alerted
+    digitalWrite(buzzer, HIGH); //Turn buzzer on
+    delay(3000); //Wait three seconds
+    digitalWrite(buzzer, LOW); //Turn buzzer off
 
-    waterOn.write(90); //Swerve waterOn Servo 90 degrees
-    delay(500); //Wait for half a second
-    waterOn.write(0); //Swerve Servo back
+    waterOn.write(180); //Spin the water on Servo, to turn on the water
+    delay(700); //Wait for 7/10 of a second
+    waterOn.write(0); //Spin the water on Servo back to original position.
 
-    digitalWrite(water, HIGH); //Turn the water on LED to indicate wetting hands before soap
-    delay(7000); keep it on for 7 seconds
-    
-    //The following code shows the last 3 seconds of the buzzer going off and the blue LED flashing
-    digitalWrite(buzzer, HIGH);
-    digitalWrite(water, LOW);
-    delay(500);
-    digitalWrite(water, HIGH);
-    delay(500);
-    digitalWrite(water, LOW);
-    delay(500);
-    digitalWrite(water, HIGH);
-    delay(500);
-    digitalWrite(water, LOW);
-    delay(500);
-    digitalWrite(water, HIGH);
-    delay(500);
-    digitalWrite(water, LOW);
-    digitalWrite(buzzer, LOW);
-   
-    waterOff.write(90); //The water off Servo swerves to turn the tap off
-    delay(500); //Wait for half a second
-    waterOff.write(0); //Water off swerves back into position
-    
-    delay(2500); //Wait for 2 and a half seconds
+    delay(700); //Wait for 7/10 of a second
 
-    digitalWrite(soap, HIGH); //Turn the soap LED
-    delay(17000); //Keep it on for 17 seconds
-     
-    //For the last 3 seconds, make it blink and keep the buzzer on
-    digitalWrite(buzzer, HIGH);
-    digitalWrite(soap, LOW);
-    delay(500);
-    digitalWrite(soap, HIGH);
-    delay(500);
-    digitalWrite(soap, LOW);
-    delay(500);
-    digitalWrite(soap, HIGH);
-    delay(500);
-    digitalWrite(soap, LOW);
-    delay(500);
-    digitalWrite(soap, HIGH);
-    delay(500);
-    digitalWrite(soap, LOW);
-    digitalWrite(buzzer, LOW);
-   
-    waterOn.write(90); //Turn the water on again
-    delay(500); //Wait for half a second
-    waterOn.write(0); //Swerve the water servo back into position
+    digitalWrite(water, HIGH); //Keep the Water LED on for 7 seconds to signify washing hands
+    delay(7000); //delay (7 secs of water on Servo remaining at HIGH)
 
-    //For the last 3 seconds, keep the buzzer on and the LED blinking
+    //For the last 3 seconds, set the buzzer on high and the water LED as blinking
     digitalWrite(buzzer, HIGH);
     digitalWrite(water, LOW);
     delay(500);
@@ -138,12 +98,67 @@ void loop() {
     digitalWrite(water, LOW);
     digitalWrite(buzzer, LOW);
     
-    waterOff.write(90); //Swerve the waterOff servo again
-    delay(500); //Wait for half a second
-    waterOff.write(0); //Swerve the waterOff back into original position
+    delay(700); //Wait for 7 seconds
 
-    delay(5000); //Wait for 5 seconds before continuing to use the sensor to scan for nearby objects
+    waterOff.write(180); //Spin the water off Servo
+    delay(700); //Wait for 7/10 of a second
+    waterOff.write(0); //Spin water off Servo back to original position
+
+    delay(2500); //wait for two and a half seconds (for the person to take soap)
+
+    digitalWrite(soap, HIGH); //turn the Soap LED on
+    delay(17000); //Wait for 17 seconds
     
+    //For the last three seconds, set the buzzzer on high and the soap LED as blinking
+    digitalWrite(buzzer, HIGH); 
+    digitalWrite(soap, LOW);
+    delay(500);
+    digitalWrite(soap, HIGH);
+    delay(500);
+    digitalWrite(soap, LOW);
+    delay(500);
+    digitalWrite(soap, HIGH);
+    delay(500);
+    digitalWrite(soap, LOW);
+    delay(500);
+    digitalWrite(soap, HIGH);
+    delay(500);
+    digitalWrite(soap, LOW);
+    digitalWrite(buzzer, LOW);
+
+    waterOn.write(180); //Turn the water servo on
+    delay(700); //Wait 7/10 of a second
+    waterOn.write(0); //Swivel water on servo back into original position
+
+    delay(700); //wait for 7/10 of a second
+
+    digitalWrite(water, HIGH); //Set water LED on high
+    delay(7000); //Wait for 7 seconds
+    
+    //For the last three seconds, set the buzzer on high and make the blue LED blink
+    digitalWrite(buzzer, HIGH);
+    digitalWrite(water, LOW);
+    delay(500);
+    digitalWrite(water, HIGH);
+    delay(500);
+    digitalWrite(water, LOW);
+    delay(500);
+    digitalWrite(water, HIGH);
+    delay(500);
+    digitalWrite(water, LOW);
+    delay(500);
+    digitalWrite(water, HIGH);
+    delay(500);
+    digitalWrite(water, LOW);
+    digitalWrite(buzzer, LOW);
+
+
+    waterOff.write(180); //Swivel the water off servo
+    delay(700); //Wait 7/10 of a second
+    waterOff.write(0); //Swivel water off Servo back into original position
+
+    delay(5000); //Wait 5 seconds before continuing to scan for objects within 10 cm
+
   }
 
 }
